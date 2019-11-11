@@ -1,104 +1,48 @@
-* {
-  box-sizing: border-box;
+:root {
+  --righteous-font: "Righteous", cursive;
+}
+
+body {
+  background-color: #536691;
+  min-height: 100vh;
+  z-index: -10;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  font-size: 1.3rem;
+}
+.hero {
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100vw;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(31, 34, 118, 0.5);
+}
+
+h1 {
+  margin-top: 12rem;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  font-family: var(--righteous-font);
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+  margin-top: 2rem;
+  list-style: none;
 }
-
-ul li {
-  cursor: pointer;
-  position: relative;
-  padding: 12px 8px 12px 40px;
-  background: #eee;
-  font-size: 18px;
-  transition: 0.2s;
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+li {
+  border-bottom: 1px solid white;
+  padding: 0.5rem 0 0.5rem 0;
+  margin: 0 1rem 0 1rem;
 }
-
-ul li:nth-child(odd) {
-  background: #f9f9f9;
-}
-
-ul li:hover {
-  background: #ddd;
-}
-
-ul li.checked {
-  background: #888;
-  color: #fff;
-  text-decoration: line-through;
-}
-
-ul li.checked::before {
-  content: "";
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
-
-.close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 12px 16px 12px 16px;
-}
-
-.close:hover {
-  background-color: #f44336;
-  color: white;
-}
-
-.header {
-  background-color: gray;
-  padding: 30px 40px;
-  color: white;
-  text-align: center;
-}
-
-.header:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-input {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  width: 75%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-}
-
-.addBtn {
-  padding: 10px;
-  width: 25%;
-  background: #d9d9d9;
-  color: #555;
-  float: left;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-.addBtn:hover {
-  background-color: #bbb;
+.checkboxes {
+  float: right;
+  line-height: 15px;
+  width: 17px;
+  height: 17px;
+  background-color: #e9ecef;
+  border: 1px solid #e9ecef;
+  border-radius: 3px;
 }

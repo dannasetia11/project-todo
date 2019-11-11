@@ -1,59 +1,96 @@
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+window.onload = function() {
+  //variables
+  var form = document.getElementById("form");
+  var input = document.getElementById("input");
+  var btn = document.getElementById("btn");
+  var list = document.getElementById("list");
+  var btnClr = document.getElementById("btnClr");
+  var id = 1;
+  // listItem = {item: "todo item", checked: flase}
+  var liItem = "";
+  var todoList = [];
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  };
-}
+  //button event listener
+  btn.addEventListener("click", addTodoItem);
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector("ul");
-list.addEventListener(
-  "click",
-  function(ev) {
-    if (ev.target.tagName === "LI") {
-      ev.target.classList.toggle("checked");
+  //list event listener
+  list.addEventListener("click", boxChecked);
+
+  //event listener for clear list
+  btnClr.addEventListener("click", clearList);
+
+  if (localStorage.length <= 0) {
+    btnClr.style.display = "none"; //hide clear btn
+    console.log("button");
+  }
+
+  //add todo item to list
+  function addTodoItem() {
+    if (input.value === "") {
+      alert("You must enter some value!");
+    } else {
+      if (list.style.borderTop === "") {
+        console.log("here!");
+        list.style.borderTop = "2px solid white";
+        btnClr.style.display = "inline";
+      }
+      var text = input.value;
+      var item = `<li id="li-${id}">${text}<input id="box-${id}" 			class="checkboxes" type="checkbox"></li>`;
+      list.insertAdjacentHTML("beforeend", item);
+      liItem = { item: text, checked: false };
+      todoList.push(liItem);
+      id++;
+      addToLocalStorage();
+      form.reset();
     }
-  },
-  false
-);
-
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === "") {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
   }
-  document.getElementById("myInput").value = "";
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    };
+  //adding string through style to list itme
+  function boxChecked(event) {
+    const element = event.target;
+    if (element.type === "checkbox") {
+      element.parentNode.style.textDecoration = "line-through";
+      todoList = JSON.parse(localStorage.getItem("todoList"));
+      todoList[
+        element.id.split("-")[1] - 1
+      ].checked = element.checked.toString();
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+    }
   }
-}
+
+  //adding data to local storage
+  function addToLocalStorage() {
+    if (typeof Storage !== "undefined") {
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+    } else {
+      alert("browser doesn't support local storage!");
+    }
+  }
+  //display all todo list
+  function displayList() {
+    list.style.borderTop = "2px solid white";
+    todoList = JSON.parse(localStorage.getItem("todoList"));
+    todoList.forEach(function(element) {
+      console.log(element.item);
+      var text = element.item;
+      var item = `<li id="li-${id}">${text}<input id="box-${id}" class="checkboxes" type="checkbox"></li>`;
+      list.insertAdjacentHTML("beforeend", item);
+      //if we got a checked box, then style
+      if (element.checked) {
+        var li = document.getElementById("li-" + id);
+        li.style.textDecoration = "line-through";
+        li.childNodes[1].checked = element.checked;
+      }
+      id++;
+    });
+  }
+
+  //clear list event listener
+  function clearList() {
+    todoList = [];
+    localStorage.clear();
+    list.innerHTML = "";
+    btnClr.style.display = "none";
+    list.style.borderTop = "";
+  }
+};
