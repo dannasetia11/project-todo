@@ -27,7 +27,7 @@ window.onload = function() {
   //add todo item to list
   function addTodoItem() {
     if (input.value === "") {
-      alert("You must enter some value!");
+      alert("Kamu belum memasukan To Do");
     } else {
       if (list.style.borderTop === "") {
         console.log("here!");
